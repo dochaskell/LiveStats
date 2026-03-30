@@ -10,88 +10,81 @@
       --thin:#444;
       --bg:#fff;
       --muted:#666;
-      --cell:28px;
-      --font: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      --cell:24px;
+      --label-col:176px;
+      --font:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
     }
-    *,*::before,*::after{ box-sizing:border-box; }
+    *,*::before,*::after{box-sizing:border-box}
     body{
       margin:0;
-      padding:18px;
+      padding:12px;
       font-family:var(--font);
       background:var(--bg);
       color:#111;
+      font-size:13px;
     }
     .wrap{
-      max-width:1200px;
+      max-width:1120px;
       margin:0 auto;
       display:flex;
       flex-direction:column;
-      gap:14px;
+      gap:10px;
     }
     header{
       display:flex;
-      gap:14px;
+      gap:10px;
       flex-wrap:wrap;
       align-items:flex-end;
       justify-content:space-between;
     }
     .controls{
       display:flex;
-      gap:12px;
+      gap:8px;
       flex-wrap:wrap;
-      align-items:center;
+      align-items:end;
     }
     label{
-      font-size:13px;
+      font-size:12px;
       color:var(--muted);
       display:flex;
       flex-direction:column;
-      gap:6px;
+      gap:4px;
     }
-    select, input[type="text"]{
-      font-family:var(--font);
-      font-size:14px;
-      padding:8px 10px;
+    select,input[type="text"],button{
+      font:inherit;
       border:1px solid #bbb;
-      border-radius:10px;
-      outline:none;
-      min-width:220px;
+      border-radius:8px;
       background:#fff;
+    }
+    select,input[type="text"]{
+      padding:6px 8px;
+      min-width:170px;
+      outline:none;
     }
     button{
-      font-family:var(--font);
-      font-size:14px;
-      padding:9px 12px;
-      border:1px solid #bbb;
-      border-radius:10px;
-      background:#fff;
+      padding:7px 10px;
       cursor:pointer;
     }
-    button:hover{ border-color:#888; }
+    button:hover{border-color:#888}
     .hint{
-      font-size:13px;
+      font-size:12px;
       color:var(--muted);
-      line-height:1.4;
-      max-width:780px;
+      line-height:1.35;
+      max-width:680px;
     }
-
-    /* Grid */
     .board{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
       overflow-x:auto;
-      padding-bottom:8px;
+      padding-bottom:4px;
     }
     .grid{
       display:grid;
-      grid-template-columns: 220px repeat(36, var(--cell));
-      grid-auto-rows: var(--cell);
-      align-items:stretch;
+      grid-template-columns:var(--label-col) repeat(36,var(--cell));
+      grid-auto-rows:var(--cell);
       width:max-content;
       border:2px solid var(--grid-border);
-      border-radius:12px;
+      border-radius:10px;
       overflow:hidden;
+      background:#fff;
     }
     .cell{
       border-right:1px solid var(--thin);
@@ -101,114 +94,81 @@
       justify-content:center;
       user-select:none;
       cursor:pointer;
-      font-size:16px;
+      font-size:14px;
       line-height:1;
       background:#fff;
     }
-    .cell:last-child{ border-right:none; }
+    .row-label,.header-left,.header-cell,.team-box{cursor:default}
     .row-label{
-      cursor:default;
       justify-content:flex-start;
-      padding-left:10px;
-      font-size:14px;
-      color:#111;
-      gap:10px;
+      padding:0 8px;
+      gap:8px;
+      font-size:13px;
     }
-    .row-label span{
-      color:var(--muted);
-      font-size:12px;
-    }
-    .header-cell{
-      cursor:default;
-      background:#fafafa;
-      font-size:12px;
-      color:#111;
-    }
-    .header-left{
-      background:#fafafa;
-      cursor:default;
-      justify-content:flex-start;
-      padding-left:10px;
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    /* Thick framed team name boxes (like the screenshot) */
+    .row-label span,.header-left{color:var(--muted);font-size:11px}
+    .header-cell,.header-left{background:#fafafa;font-size:11px}
+    .header-left{justify-content:flex-start;padding-left:8px}
     .team-box{
       padding:0;
-      /* Use inset shadows so the "heavy frame" doesn't change layout or overlap */
-      box-shadow: inset -2px 0 0 0 var(--grid-border), inset 0 -2px 0 0 var(--grid-border);
-      background:#fff;
-      cursor:default;
-      justify-content:stretch;
+      box-shadow:inset -2px 0 0 0 var(--grid-border), inset 0 -2px 0 0 var(--grid-border);
       align-items:stretch;
+      justify-content:stretch;
+      background:#fff;
     }
     .team-input{
       width:100%;
       height:100%;
       border:none;
       outline:none;
-      padding:0 10px;
-      font-size:14px;
-      font-weight:600;
+      padding:0 8px;
+      font:600 13px var(--font);
       background:#fff;
     }
-
-    /* Make the two main rows feel "heavier" */
     .main-row-cell{
-      /* Heavier row separator without affecting grid sizing */
-      box-shadow: inset 0 -2px 0 0 var(--grid-border);
+      box-shadow:inset 0 -2px 0 0 var(--grid-border);
+      background:#f2f2f2;
     }
-
-    .u{
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-    .dot{
-      font-size:18px;
-    }
-
-    /* Stats */
-    .stats{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-    }
+    .u{text-decoration:underline;text-underline-offset:2px}
+    .dot{font-size:16px}
+    .stats{display:grid;gap:8px}
     .card{
       border:1px solid #ddd;
-      border-radius:14px;
-      padding:12px 14px;
+      border-radius:12px;
+      padding:10px;
       background:#fff;
     }
-    .card h2{
-      margin:0 0 10px 0;
-      font-size:14px;
-      color:#111;
-    }
+    .card h2{margin:0 0 8px;font-size:13px}
     .statgrid{
       display:grid;
-      grid-template-columns: repeat(6, minmax(140px, 1fr));
-      gap:10px;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:8px;
     }
     .stat{
       border:1px solid #eee;
-      border-radius:12px;
-      padding:10px 10px;
+      border-radius:10px;
+      padding:8px;
       background:#fafafa;
+      min-width:0;
+    }
+    .stat.team-a{ background:#ffecec; grid-column: span 2; }
+    .stat.team-b{ background:#ecffec; grid-column: span 2; }
+      min-width:0;
     }
     .stat .k{
-      font-size:12px;
+      font-size:11px;
       color:var(--muted);
-      margin-bottom:6px;
+      margin-bottom:4px;
+      line-height:1.3;
     }
     .stat .v{
-      font-size:18px;
+      font-size:16px;
       font-weight:700;
+      overflow-wrap:anywhere;
     }
     @media (max-width: 900px){
-      .statgrid{ grid-template-columns: repeat(2, minmax(140px, 1fr)); }
-      select, input[type="text"]{ min-width: 180px; }
-      .grid{ grid-template-columns: 190px repeat(36, var(--cell)); }
+      :root{--cell:22px;--label-col:150px}
+      .statgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      select,input[type="text"]{min-width:150px}
     }
   </style>
 </head>
@@ -219,34 +179,26 @@
         <label>
           Map
           <select id="mapSelect">
-            <option value="Ascent">Ascent</option>
-            <option value="Bind">Bind</option>
-            <option value="Breeze">Breeze</option>
-            <option value="Fracture">Fracture</option>
-            <option value="Haven">Haven</option>
-            <option value="Icebox">Icebox</option>
-            <option value="Lotus">Lotus</option>
-            <option value="Pearl">Pearl</option>
-            <option value="Split">Split</option>
-            <option value="Sunset">Sunset</option>
-            <option value="Abyss">Abyss</option>
-            <option value="Corrode">Corrode</option>
+            <option>Bind</option>
+            <option>Breeze</option>
+            <option>Fracture</option>
+            <option>Haven</option>
+            <option>Lotus</option>
+            <option>Pearl</option>
+            <option>Split</option>
           </select>
         </label>
-        <button id="clearBtn" type="button">Clear board</button>
-        <button id="swapBtn" type="button">Swap teams</button>
-        <button id="exportBtn" type="button">Export JSON</button>
-        <button id="importBtn" type="button">Import JSON</button>
+        <button id="clearBtn" type="button">Clear</button>
+        <button id="swapBtn" type="button">Swap</button>
+        <button id="exportBtn" type="button">Export</button>
+        <button id="importBtn" type="button">Import</button>
       </div>
       <div class="hint">
-        Click a round box to cycle: <b>blank → – → X → <span style="text-decoration:underline;">X</span> → blank</b>.
-        Dots (Plant/Eco/Clutch) toggle on/off. Stats update live and everything autosaves in your browser.
+        Click round cells to cycle states. Hit cycles through A/B/C/?. Plant, Eco, and Clutch toggle on/off. Stats update live and autosave in your browser.
       </div>
     </header>
 
-    <section class="board">
-      <div class="grid" id="grid"></div>
-    </section>
+    <section class="board"><div class="grid" id="grid"></div></section>
 
     <section class="stats">
       <div class="card">
@@ -257,37 +209,29 @@
   </div>
 
   <script>
-    // ---------- Data model ----------
     const ROUNDS = 36;
-    // states for main rows:
-    // 0 blank
-    // 1 –  (team was first eliminated)
-    // 2 +  (team was first eliminated but traded)
-    // 3 X  (team won)
-    // 4 underlined X (team won AND was first eliminated)
-    // 5 𝕏  (team won AND was first eliminated but traded)
     const MAIN_STATES = ["", "–", "+", "X", "X", "𝕏"];
     const HIT_STATES = ["", "A", "B", "C", "?"];
-    const STORAGE_KEY = "valorant_round_tracker_v2";
+    const STORAGE_KEY = "valorant_round_tracker_v3_compact";
 
     const model = {
       map: "Ascent",
       teams: ["Team A", "Team B"],
-      // main rows: [2][36]
       main: [Array(ROUNDS).fill(0), Array(ROUNDS).fill(0)],
-      // dot rows: 3 rows (Plant/Eco/Clutch), each [36] boolean
       dots: {
         Plant: Array(ROUNDS).fill(false),
         Eco: Array(ROUNDS).fill(false),
         Clutch: Array(ROUNDS).fill(false),
       },
-      // Hit values: 0 blank, 1 A, 2 B, 3 C, 4 ?
       hits: Array(ROUNDS).fill(0)
     };
 
-    // ---------- Helpers ----------
+    const gridEl = document.getElementById("grid");
+    const mapSelect = document.getElementById("mapSelect");
+    const statgrid = document.getElementById("statgrid");
+
     function safeParseJSON(text){
-      try{ return JSON.parse(text); } catch { return null; }
+      try{return JSON.parse(text)}catch{return null}
     }
     function save(){
       localStorage.setItem(STORAGE_KEY, JSON.stringify(model));
@@ -297,17 +241,14 @@
       if(!raw) return;
       const data = safeParseJSON(raw);
       if(!data) return;
-
-      // minimal schema checks
       if(typeof data.map === "string") model.map = data.map;
       if(Array.isArray(data.teams) && data.teams.length === 2){
-        model.teams[0] = String(data.teams[0] ?? "Team A");
-        model.teams[1] = String(data.teams[1] ?? "Team B");
+        model.teams = [String(data.teams[0] ?? "Team A"), String(data.teams[1] ?? "Team B")];
       }
       if(Array.isArray(data.main) && data.main.length === 2){
-        for(let r=0;r<2;r++){
-          if(Array.isArray(data.main[r]) && data.main[r].length === ROUNDS){
-            model.main[r] = data.main[r].map(x => (Number.isInteger(x) ? Math.max(0, Math.min(5, x)) : 0));
+        for(let t=0;t<2;t++){
+          if(Array.isArray(data.main[t]) && data.main[t].length === ROUNDS){
+            model.main[t] = data.main[t].map(v => Number.isInteger(v) ? Math.max(0, Math.min(5, v)) : 0);
           }
         }
       }
@@ -319,426 +260,23 @@
         }
       }
       if(Array.isArray(data.hits) && data.hits.length === ROUNDS){
-        model.hits = data.hits.map(x => Number.isInteger(x) ? Math.max(0, Math.min(4, x)) : 0);
+        model.hits = data.hits.map(v => Number.isInteger(v) ? Math.max(0, Math.min(4, v)) : 0);
       }
     }
 
     function countStates(arr, state){
-      let c=0;
-      for(const x of arr) if(x===state) c++;
+      let c = 0;
+      for(const x of arr) if(x === state) c++;
       return c;
     }
     function countDots(arr){
-      let c=0;
+      let c = 0;
       for(const b of arr) if(b) c++;
       return c;
     }
     function pct(n, d){
-      if(!d) return "–";
-      return Math.round((n/d)*100) + "%";
+      return d ? Math.round((n / d) * 100) + "%" : "–";
     }
-
-    // Define "score" as number of dashes (which indicate first death for that team, so opponent's FK)
-    function computeTeamStats(teamIdx){
-      const a = model.main[teamIdx];
-      const dash = countStates(a, 1);
-      const traded = countStates(a, 2);
-      const x = countStates(a, 3);
-      const ux = countStates(a, 4);
-      const fx = countStates(a, 5);
-      const marked = dash + traded + x + ux + fx;
-
-      return {
-        dash, traded, x, ux, fx, marked,
-        winRate: marked ? pct(x + ux + fx, marked) : "–",
-      };
-    }
-
-    function computeUnassigned(){
-      let c=0;
-      for(let i=0;i<ROUNDS;i++){
-        const a = model.main[0][i] === 0;
-        const b = model.main[1][i] === 0;
-        if(a && b) c++;
-      }
-      return c;
-    }
-
-    // ---------- UI ----------
-    const gridEl = document.getElementById("grid");
-    const mapSelect = document.getElementById("mapSelect");
-    const statgrid = document.getElementById("statgrid");
-
-    function buildGrid(){
-      gridEl.innerHTML = "";
-
-      // Header row
-      const headerLeft = document.createElement("div");
-      headerLeft.className = "cell header-left";
-      headerLeft.textContent = "Round";
-      gridEl.appendChild(headerLeft);
-
-      for(let i=1;i<=ROUNDS;i++){
-        const h = document.createElement("div");
-        h.className = "cell header-cell";
-        h.textContent = i;
-        gridEl.appendChild(h);
-      }
-
-      // Team row 1
-      gridEl.appendChild(buildTeamNameCell(0, true));
-      for(let i=0;i<ROUNDS;i++){
-        gridEl.appendChild(buildMainCell(0, i, true));
-      }
-
-      // Team row 2
-      gridEl.appendChild(buildTeamNameCell(1, true));
-      for(let i=0;i<ROUNDS;i++){
-        gridEl.appendChild(buildMainCell(1, i, true));
-      }
-
-      // Dot rows: Hit, Plant, Eco, Clutch (Hit cycles through '', A, B, C, ?)
-      // We'll treat Hit specially (values 0..4) and other dots as boolean
-      if(!Array.isArray(model.hits)) model.hits = Array(ROUNDS).fill(0);
-      for(const label of ["Hit","Plant","Eco","Clutch"]){
-        const left = document.createElement("div");
-        left.className = "cell row-label";
-        left.innerHTML = `<b>${label}</b><span>• toggle</span>`;
-        gridEl.appendChild(left);
-
-        for(let i=0;i<ROUNDS;i++){
-          const c = document.createElement("div");
-          c.className = "cell dot";
-          c.dataset.kind = "dot";
-          c.dataset.label = label;
-          c.dataset.round = String(i);
-          if(label === 'Hit'){
-            // cycle through 0..4 -> '', 'A','B','C','?'
-            c.addEventListener('click', () => {
-              model.hits[i] = (model.hits[i] + 1) % 5;
-              render();
-              save();
-            });
-          } else {
-            c.addEventListener("click", () => {
-        const cur = model.main[teamIdx][roundIdx];
-        const next = (cur + 1) % 6; // 0..5
-        const other = 1 - teamIdx;
-
-        const isWin = (v) => (v === 3 || v === 4 || v === 5);
-        const isFirstDeath = (v) => (v === 1 || v === 2);
-
-        // If setting first-death markers (– or +)
-        if (next === 1) {
-          // '-' remains mutually exclusive between teams
-          if (isFirstDeath(model.main[other][roundIdx])) {
-            model.main[other][roundIdx] = 0;
-          }
-          // If opponent has X̲ or 𝕏, downgrade to X
-          if (model.main[other][roundIdx] === 4 || model.main[other][roundIdx] === 5) {
-            model.main[other][roundIdx] = 3;
-          }
-          model.main[teamIdx][roundIdx] = 1;
-          render();
-          save();
-          return;
-        }
-
-        if (next === 2) {
-          // IMPORTANT CHANGE:
-          // '+' does NOT clear the opponent's '-' or '+'
-          // (it still represents first death w/ trade for this team)
-          // If opponent has X̲ or 𝕏, downgrade to X
-          if (model.main[other][roundIdx] === 4 || model.main[other][roundIdx] === 5) {
-            model.main[other][roundIdx] = 3;
-          }
-          model.main[teamIdx][roundIdx] = 2;
-          render();
-          save();
-          return;
-        }
-
-        // If setting a win state (X, X̲, 𝕏), enforce winner exclusivity ONLY
-        if (isWin(next)) {
-          model.main[teamIdx][roundIdx] = next;
-
-          // Winner exclusivity: clear opponent win state
-          if (isWin(model.main[other][roundIdx])) {
-            model.main[other][roundIdx] = 0;
-          }
-
-          // IMPORTANT: Do NOT clear opponent '-' or '+' here anymore.
-
-          render();
-          save();
-          return;
-        }
-
-        // next === 0 (blank)
-        model.main[teamIdx][roundIdx] = 0;
-        render();
-        save();
-      });
-          }
-          gridEl.appendChild(c);
-        }
-      }
-    }
-
-    function buildTeamNameCell(teamIdx, heavy){
-      const wrapper = document.createElement("div");
-      wrapper.className = "cell team-box" + (heavy ? " main-row-cell" : "");
-      const input = document.createElement("input");
-      input.type = "text";
-      input.className = "team-input";
-      input.value = model.teams[teamIdx];
-      input.placeholder = teamIdx === 0 ? "Team A" : "Team B";
-      input.addEventListener("input", (e) => {
-        model.teams[teamIdx] = e.target.value || (teamIdx === 0 ? "Team A" : "Team B");
-        renderStats();
-        save();
-      });
-      wrapper.appendChild(input);
-      return wrapper;
-    }
-
-    function buildMainCell(teamIdx, roundIdx, heavy){
-      const c = document.createElement("div");
-      c.className = "cell" + (heavy ? " main-row-cell" : "");
-      c.dataset.kind = "main";
-      c.dataset.team = String(teamIdx);
-      c.dataset.round = String(roundIdx);
-      c.addEventListener("click", () => {
-        const cur = model.main[teamIdx][roundIdx];
-        const next = (cur + 1) % 6; // 0..5
-        const other = 1 - teamIdx;
-
-        // Helpers
-        const isWin = (v) => (v === 3 || v === 4 || v === 5);
-        const isFirstDeath = (v) => (v === 1 || v === 2);
-
-        // If setting first-death markers (– or +), only one team can have it per round.
-        if (next === 1 || next === 2) {
-          // Clear opponent first-death marker if present
-          if (isFirstDeath(model.main[other][roundIdx])) {
-            model.main[other][roundIdx] = 0;
-          }
-          // If opponent has X̲ or 𝕏, downgrade to X (because first death belongs to this team now)
-          if (model.main[other][roundIdx] === 4 || model.main[other][roundIdx] === 5) {
-            model.main[other][roundIdx] = 3;
-          }
-          model.main[teamIdx][roundIdx] = next;
-          render();
-          save();
-          return;
-        }
-
-        // If setting a win state (X, X̲, 𝕏), enforce winner exclusivity.
-        if (isWin(next)) {
-          model.main[teamIdx][roundIdx] = next;
-
-          // Winner exclusivity: clear opponent win state
-          if (isWin(model.main[other][roundIdx])) {
-            model.main[other][roundIdx] = 0;
-          }
-
-          // If setting X̲ or 𝕏, this team is the first death → opponent cannot have – or +
-          if (next === 4 || next === 5) {
-            if (isFirstDeath(model.main[other][roundIdx])) {
-              model.main[other][roundIdx] = 0;
-            }
-            // Also ensure this team doesn't have –/+ in addition to X̲/𝕏
-            if (isFirstDeath(model.main[teamIdx][roundIdx])) {
-              model.main[teamIdx][roundIdx] = next;
-            }
-          }
-
-          render();
-          save();
-          return;
-        }
-
-        // next === 0 (blank)
-        model.main[teamIdx][roundIdx] = 0;
-        render();
-        save();
-      });
-      return c;
-    }
-
-    function render(){
-      // Map select
-      mapSelect.value = model.map;
-
-      // Render cells
-      const cells = gridEl.querySelectorAll(".cell");
-      for(const el of cells){
-        const kind = el.dataset.kind;
-        if(kind === "main"){
-          const t = Number(el.dataset.team);
-          const r = Number(el.dataset.round);
-          const state = model.main[t][r];
-          el.textContent = MAIN_STATES[state];
-          el.classList.toggle("u", state === 4);
-          // light hinting: dash = slightly bolder
-          el.style.fontWeight = ((state === 1 || state === 2) ? "700" : "600");
-        } else if(kind === "dot"){
-          const label = el.dataset.label;
-          const r = Number(el.dataset.round);
-          if(label === 'Hit'){
-            const v = model.hits[r] || 0;
-            el.textContent = HIT_STATES[v];
-            el.style.fontWeight = v ? '700' : '400';
-          } else {
-            const on = model.dots[label][r];
-            el.textContent = on ? "•" : "";
-            el.style.fontWeight = on ? "900" : "400";
-          }
-        }
-      }
-
-      renderStats();
-    }
-
-    function renderStats(){
-      const t0 = computeTeamStats(0);
-      const t1 = computeTeamStats(1);
-      const unassigned = computeUnassigned();
-
-      const plants = countDots(model.dots.Plant);
-      const ecos = countDots(model.dots.Eco);
-      const clutches = countDots(model.dots.Clutch);
-
-      // rounds that have a round winner (either team has X or UX)
-      let winnerRounds = 0;
-      for(let i=0;i<ROUNDS;i++){
-        if(model.main[0][i] === 3 || model.main[0][i] === 4 || model.main[0][i] === 5 || model.main[1][i] === 3 || model.main[1][i] === 4 || model.main[1][i] === 5) winnerRounds++;
-      }
-
-      // First Kill counts:
-      // '-' in a team's row means that team was first death, so the opposite team got the first kill.
-      // A team gets First Kill when the opponent has '-' OR when the opponent has underlined X (they won but were killed first)
-      function firstKillCountForTeam(teamIdx){
-        let c=0;
-        for(let i=0;i<ROUNDS;i++){
-          const opp = 1 - teamIdx;
-          if(model.main[opp][i] === 1 || model.main[opp][i] === 2 || model.main[opp][i] === 4 || model.main[opp][i] === 5) c++;
-        }
-        return c;
-      }
-      const fk0 = firstKillCountForTeam(0);
-      const fk1 = firstKillCountForTeam(1);
-
-      // First-kill rounds where the team also won the round:
-      function fkWins(teamIdx){
-        let c = 0;
-        for(let i=0;i<ROUNDS;i++){
-          // team had first kill on round i?
-          const hadFK = (model.main[1-teamIdx][i] === 1 || model.main[1-teamIdx][i] === 2 || model.main[1-teamIdx][i] === 4 || model.main[1-teamIdx][i] === 5);
-          // team won round?
-          const won = (model.main[teamIdx][i] === 3 || model.main[teamIdx][i] === 4 || model.main[teamIdx][i] === 5);
-          if(hadFK && won) c++;
-        }
-        return c;
-      }
-      const fkWins0 = fkWins(0);
-      const fkWins1 = fkWins(1);
-
-      // Plant/Eco/Clutch win counts: number of rounds where dot is set AND team has X or UX
-      function dotWinsForTeam(dotName, teamIdx){
-        let c=0;
-        for(let i=0;i<ROUNDS;i++){
-          if(model.dots[dotName][i] && (model.main[teamIdx][i] === 3 || model.main[teamIdx][i] === 4 || model.main[teamIdx][i] === 5)) c++;
-        }
-        return c;
-      }
-
-      const plantWins0 = dotWinsForTeam('Plant', 0);
-      const plantWins1 = dotWinsForTeam('Plant', 1);
-      const ecoWins0 = dotWinsForTeam('Eco', 0);
-      const ecoWins1 = dotWinsForTeam('Eco', 1);
-      const clutchWins0 = dotWinsForTeam('Clutch', 0);
-      const clutchWins1 = dotWinsForTeam('Clutch', 1);
-
-
-      // --- Site (Hit) based stats ---
-      // Determine attacking team per round:
-      // rounds 1-12 -> Team A (index 0)
-      // rounds 13-24 -> Team B (index 1)
-      // round 25 onward -> alternate starting with Team A on round 25
-      function attackingTeamForRound(idx){
-        const r = idx + 1; // 1-based
-        if(r <= 12) return 0;
-        if(r <= 24) return 1;
-        // r >=25: alternate starting with Team A on 25
-        return ((r - 25) % 2 === 0) ? 0 : 1;
-      }
-      // counters per team per site A/B/C (index 1..3 in HIT_STATES)
-      const atkCounts = [ [0,0,0], [0,0,0] ]; // team -> [A,B,C]
-      const atkWins = [ [0,0,0], [0,0,0] ];
-      const defCounts = [ [0,0,0], [0,0,0] ];
-      const defWins = [ [0,0,0], [0,0,0] ];
-
-      for(let i=0;i<ROUNDS;i++){
-        const hv = model.hits[i] || 0;
-        if(hv >=1 && hv <=3){ // A/B/C
-          const siteIdx = hv - 1; // 0..2 maps to A,B,C
-          const atk = attackingTeamForRound(i);
-          const def = 1 - atk;
-          // attack side counts
-          atkCounts[atk][siteIdx] += 1;
-          // attack win?
-          if(model.main[atk][i] === 2 || model.main[atk][i] === 3) atkWins[atk][siteIdx] += 1;
-          // defense side counts
-          defCounts[def][siteIdx] += 1;
-          // defense win?
-          if(model.main[def][i] === 2 || model.main[def][i] === 3) defWins[def][siteIdx] += 1;
-        }
-      }
-
-      // helper to format arrays as 'n/n/n' and winrates as 'p%/q%/r%'
-      function joinCounts(arr){ return arr.map(x=>String(x)).join('/'); }
-      function joinRates(winsArr, countsArr){ return winsArr.map((w,i)=> countsArr[i]? pct(w, countsArr[i]) : '–').join('/'); }
-      statgrid.innerHTML = "";
-
-      const items = [
-        // Team 1 (top team)
-        {k:`${model.teams[0]} marked rounds`, v:String(t0.marked)},
-        {k:`${model.teams[0]} First deaths`, v:String(t0.dash + t0.traded + t0.ux + t0.fx)},
-        {k:`${model.teams[0]} win rate (wins/marked)`, v:t0.winRate},
-        {k:`${model.teams[0]} plant winrate`, v: (plants? (plantWins0 + '/' + plants + ' → ' + pct(plantWins0, plants) ) : '–')},
-        {k:`${model.teams[0]} eco winrate`, v: (ecos? (ecoWins0 + '/' + ecos + ' → ' + pct(ecoWins0, ecos) ) : '–')},
-        {k:`${model.teams[0]} clutch wins`, v: String(clutchWins0)},
-        {k:`${model.teams[0]} First Kills (FK)`, v: fk0 + (winnerRounds? (' / ' + winnerRounds + ' → ' + pct(fk0, winnerRounds)) : '')},
-        {k:`${model.teams[0]} FK round win rate`, v: (fk0? (fkWins0 + '/' + fk0 + ' → ' + pct(fkWins0, fk0)) : '–')},
-        {k:`${model.teams[0]} ATK A/B/C (counts)`, v: joinCounts(atkCounts[0])},
-        {k:`${model.teams[0]} ATK A/B/C (win%)`, v: joinRates(atkWins[0], atkCounts[0])},
-        {k:`${model.teams[0]} DEF A/B/C (counts)`, v: joinCounts(defCounts[0])},
-        {k:`${model.teams[0]} DEF A/B/C (win%)`, v: joinRates(defWins[0], defCounts[0])},
-
-        // Team 2 (bottom team)
-        {k:`${model.teams[1]} marked rounds`, v:String(t1.marked)},
-        {k:`${model.teams[1]} First deaths`, v:String(t1.dash + t1.traded + t1.ux + t1.fx)},
-        {k:`${model.teams[1]} win rate (wins/marked)`, v:t1.winRate},
-        {k:`${model.teams[1]} plant winrate`, v: (plants? (plantWins1 + '/' + plants + ' → ' + pct(plantWins1, plants) ) : '–')},
-        {k:`${model.teams[1]} eco winrate`, v: (ecos? (ecoWins1 + '/' + ecos + ' → ' + pct(ecoWins1, ecos) ) : '–')},
-        {k:`${model.teams[1]} clutch wins`, v: String(clutchWins1)},
-        {k:`${model.teams[1]} First Kills (FK)`, v: fk1 + (winnerRounds? (' / ' + winnerRounds + ' → ' + pct(fk1, winnerRounds)) : '')},
-        {k:`${model.teams[1]} FK round win rate`, v: (fk1? (fkWins1 + '/' + fk1 + ' → ' + pct(fkWins1, fk1)) : '–')},
-        {k:`${model.teams[1]} ATK A/B/C (counts)`, v: joinCounts(atkCounts[1])},
-        {k:`${model.teams[1]} ATK A/B/C (win%)`, v: joinRates(atkWins[1], atkCounts[1])},
-        {k:`${model.teams[1]} DEF A/B/C (counts)`, v: joinCounts(defCounts[1])},
-        {k:`${model.teams[1]} DEF A/B/C (win%)`, v: joinRates(defWins[1], defCounts[1])},
-      ];
-
-      for(const it of items){
-        const d = document.createElement("div");
-        d.className = "stat";
-        d.innerHTML = `<div class="k">${escapeHtml(it.k)}</div><div class="v">${escapeHtml(it.v)}</div>`;
-        statgrid.appendChild(d);
-      }
-    }
-
     function escapeHtml(s){
       return String(s)
         .replaceAll("&","&amp;")
@@ -748,12 +286,277 @@
         .replaceAll("'","&#039;");
     }
 
-    // ---------- Controls ----------
+    function computeTeamStats(teamIdx){
+      const a = model.main[teamIdx];
+      const dash = countStates(a, 1);
+      const traded = countStates(a, 2);
+      const x = countStates(a, 3);
+      const ux = countStates(a, 4);
+      const fx = countStates(a, 5);
+      const marked = dash + traded + x + ux + fx;
+      return {
+        dash, traded, x, ux, fx, marked,
+        winRate: marked ? pct(x + ux + fx, marked) : "–",
+      };
+    }
+    function computeUnassigned(){
+      let c = 0;
+      for(let i=0;i<ROUNDS;i++) if(model.main[0][i] === 0 && model.main[1][i] === 0) c++;
+      return c;
+    }
+    function isWin(v){ return v === 3 || v === 4 || v === 5; }
+    function isFirstDeath(v){ return v === 1 || v === 2; }
+
+    function buildTeamNameCell(teamIdx){
+      const wrapper = document.createElement("div");
+      wrapper.className = "cell team-box main-row-cell";
+      const input = document.createElement("input");
+      input.type = "text";
+      input.className = "team-input";
+      input.value = model.teams[teamIdx];
+      input.placeholder = teamIdx === 0 ? "Team A" : "Team B";
+      input.addEventListener("input", e => {
+        model.teams[teamIdx] = e.target.value || (teamIdx === 0 ? "Team A" : "Team B");
+        renderStats();
+        save();
+      });
+      wrapper.appendChild(input);
+      return wrapper;
+    }
+
+    function buildMainCell(teamIdx, roundIdx){
+      const c = document.createElement("div");
+      c.className = "cell main-row-cell";
+      c.dataset.kind = "main";
+      c.dataset.team = String(teamIdx);
+      c.dataset.round = String(roundIdx);
+      c.addEventListener("click", () => {
+        const cur = model.main[teamIdx][roundIdx];
+        const other = 1 - teamIdx;
+        const otherHasFirstDeath = isFirstDeath(model.main[other][roundIdx]);
+        const next = (cur === 0 && otherHasFirstDeath) ? 3 : (cur + 1) % 6;
+
+        if(next === 1){
+          if(isFirstDeath(model.main[other][roundIdx])) model.main[other][roundIdx] = 0;
+          if(model.main[other][roundIdx] === 4 || model.main[other][roundIdx] === 5) model.main[other][roundIdx] = 3;
+          model.main[teamIdx][roundIdx] = 1;
+        } else if(next === 2){
+          // '+' should also be mutually exclusive with opponent first-death
+          if(isFirstDeath(model.main[other][roundIdx])) model.main[other][roundIdx] = 0;
+          if(model.main[other][roundIdx] === 4 || model.main[other][roundIdx] === 5) model.main[other][roundIdx] = 3;
+          model.main[teamIdx][roundIdx] = 2;
+        } else if(isWin(next)){
+          model.main[teamIdx][roundIdx] = next;
+          if(isWin(model.main[other][roundIdx])) model.main[other][roundIdx] = 0;
+        } else {
+          model.main[teamIdx][roundIdx] = 0;
+        }
+        render();
+        save();
+      });
+      return c;
+    }
+
+    function buildGrid(){
+      gridEl.innerHTML = "";
+
+      const headerLeft = document.createElement("div");
+      headerLeft.className = "cell header-left";
+      headerLeft.textContent = "Round";
+      gridEl.appendChild(headerLeft);
+
+      for(let i=1;i<=ROUNDS;i++){
+        const h = document.createElement("div");
+        h.className = "cell header-cell";
+        h.textContent = i;
+        h.addEventListener("click", () => {
+          const idx = i - 1;
+          // clear both teams
+          model.main[0][idx] = 0;
+          model.main[1][idx] = 0;
+          // clear dots
+          model.dots.Plant[idx] = false;
+          model.dots.Eco[idx] = false;
+          model.dots.Clutch[idx] = false;
+          // clear hit
+          model.hits[idx] = 0;
+          render();
+          save();
+        });
+        gridEl.appendChild(h);
+      }
+
+      for(let t=0;t<2;t++){
+        gridEl.appendChild(buildTeamNameCell(t));
+        for(let i=0;i<ROUNDS;i++) gridEl.appendChild(buildMainCell(t, i));
+      }
+
+      for(const label of ["Hit","Plant","Eco","Clutch"]){
+        const left = document.createElement("div");
+        left.className = "cell row-label";
+        left.innerHTML = `<b>${label}</b><span>${label === "Hit" ? "A/B/C/?" : "toggle"}</span>`;
+        gridEl.appendChild(left);
+
+        for(let i=0;i<ROUNDS;i++){
+          const c = document.createElement("div");
+          c.className = "cell dot";
+          c.dataset.kind = "dot";
+          c.dataset.label = label;
+          c.dataset.round = String(i);
+
+          if(label === "Hit"){
+            c.addEventListener("click", () => {
+              model.hits[i] = (model.hits[i] + 1) % 5;
+              render();
+              save();
+            });
+          } else {
+            c.addEventListener("click", () => {
+              model.dots[label][i] = !model.dots[label][i];
+              render();
+              save();
+            });
+          }
+          gridEl.appendChild(c);
+        }
+      }
+    }
+
+    function attackingTeamForRound(idx){
+      const r = idx + 1;
+      if(r <= 12) return 0;
+      if(r <= 24) return 1;
+      return ((r - 25) % 2 === 0) ? 0 : 1;
+    }
+    function firstKillCountForTeam(teamIdx){
+      let c = 0;
+      for(let i=0;i<ROUNDS;i++){
+        const opp = 1 - teamIdx;
+        if([1,2,4,5].includes(model.main[opp][i])) c++;
+      }
+      return c;
+    }
+    function fkWins(teamIdx){
+      let c = 0;
+      for(let i=0;i<ROUNDS;i++){
+        const hadFK = [1,2,4,5].includes(model.main[1-teamIdx][i]);
+        const won = isWin(model.main[teamIdx][i]);
+        if(hadFK && won) c++;
+      }
+      return c;
+    }
+    function dotWinsForTeam(dotName, teamIdx){
+      let c = 0;
+      for(let i=0;i<ROUNDS;i++) if(model.dots[dotName][i] && isWin(model.main[teamIdx][i])) c++;
+      return c;
+    }
+    function joinCounts(arr){ return arr.map(String).join("/"); }
+    function joinRates(winsArr, countsArr){ return winsArr.map((w,i) => countsArr[i] ? pct(w, countsArr[i]) : "–").join("/"); }
+
+    function render(){
+      mapSelect.value = model.map;
+      for(const el of gridEl.querySelectorAll(".cell")){
+        const kind = el.dataset.kind;
+        if(kind === "main"){
+          const t = Number(el.dataset.team);
+          const r = Number(el.dataset.round);
+          const state = model.main[t][r];
+          el.textContent = MAIN_STATES[state];
+          el.classList.toggle("u", state === 4);
+          el.style.fontWeight = (state === 1 || state === 2) ? "700" : "600";
+        } else if(kind === "dot"){
+          const label = el.dataset.label;
+          const r = Number(el.dataset.round);
+          if(label === "Hit"){
+            const v = model.hits[r] || 0;
+            el.textContent = HIT_STATES[v];
+            el.style.fontWeight = v ? "700" : "400";
+          } else {
+            const on = model.dots[label][r];
+            el.textContent = on ? "•" : "";
+            el.style.fontWeight = on ? "900" : "400";
+          }
+        }
+      }
+      renderStats();
+    }
+
+    function renderStats(){
+      const t0 = computeTeamStats(0);
+      const t1 = computeTeamStats(1);
+      const unassigned = computeUnassigned();
+      const plants = countDots(model.dots.Plant);
+      const ecos = countDots(model.dots.Eco);
+      const clutches = countDots(model.dots.Clutch);
+
+      let winnerRounds = 0;
+      for(let i=0;i<ROUNDS;i++) if(isWin(model.main[0][i]) || isWin(model.main[1][i])) winnerRounds++;
+
+      const fk0 = firstKillCountForTeam(0);
+      const fk1 = firstKillCountForTeam(1);
+      const fkWins0 = fkWins(0);
+      const fkWins1 = fkWins(1);
+      const plantWins0 = dotWinsForTeam("Plant", 0);
+      const plantWins1 = dotWinsForTeam("Plant", 1);
+      const ecoWins0 = dotWinsForTeam("Eco", 0);
+      const ecoWins1 = dotWinsForTeam("Eco", 1);
+      const clutchWins0 = dotWinsForTeam("Clutch", 0);
+      const clutchWins1 = dotWinsForTeam("Clutch", 1);
+
+      const atkCounts = [[0,0,0],[0,0,0]];
+      const atkWins = [[0,0,0],[0,0,0]];
+      const defCounts = [[0,0,0],[0,0,0]];
+      const defWins = [[0,0,0],[0,0,0]];
+
+      for(let i=0;i<ROUNDS;i++){
+        const hv = model.hits[i] || 0;
+        if(hv >= 1 && hv <= 3){
+          const site = hv - 1;
+          const atk = attackingTeamForRound(i);
+          const def = 1 - atk;
+          atkCounts[atk][site]++;
+          defCounts[def][site]++;
+          if(isWin(model.main[atk][i])) atkWins[atk][site]++;
+          if(isWin(model.main[def][i])) defWins[def][site]++;
+        }
+      }
+
+      const aItems = [
+        {k:`${model.teams[0]} win rate`, v:t0.winRate},
+        {k:`${model.teams[0]} FK`, v:winnerRounds ? `${fk0}/${winnerRounds} → ${pct(fk0, winnerRounds)}` : String(fk0)},
+        {k:`${model.teams[0]} FK win rate`, v:fk0 ? `${fkWins0}/${fk0} → ${pct(fkWins0, fk0)}` : "–"},
+        {k:`${model.teams[0]} ATK A/B/C`, v:joinCounts(atkCounts[0])},
+        {k:`${model.teams[0]} ATK win%`, v:joinRates(atkWins[0], atkCounts[0])},
+      ];
+      const bItems = [
+        {k:`${model.teams[1]} win rate`, v:t1.winRate},
+        {k:`${model.teams[1]} FK`, v:winnerRounds ? `${fk1}/${winnerRounds} → ${pct(fk1, winnerRounds)}` : String(fk1)},
+        {k:`${model.teams[1]} FK win rate`, v:fk1 ? `${fkWins1}/${fk1} → ${pct(fkWins1, fk1)}` : "–"},
+        {k:`${model.teams[1]} ATK A/B/C`, v:joinCounts(atkCounts[1])},
+        {k:`${model.teams[1]} ATK win%`, v:joinRates(atkWins[1], atkCounts[1])},
+      ];
+      const items = [];
+      const maxLen = Math.max(aItems.length, bItems.length);
+      for(let i=0;i<maxLen;i++){
+        if(aItems[i]) items.push(aItems[i]);
+        if(bItems[i]) items.push(bItems[i]);
+      }
+
+      statgrid.innerHTML = "";
+      for(const it of items){
+        const d = document.createElement("div");
+        const isA = it.k.includes(model.teams[0]);
+        const isB = it.k.includes(model.teams[1]);
+        d.className = "stat" + (isA ? " team-a" : isB ? " team-b" : "");
+        d.innerHTML = `<div class="k">${escapeHtml(it.k)}</div><div class="v">${escapeHtml(it.v)}</div>`;
+        statgrid.appendChild(d);
+      }
+    }
+
     mapSelect.addEventListener("change", () => {
       model.map = mapSelect.value;
       save();
     });
-
     document.getElementById("clearBtn").addEventListener("click", () => {
       if(!confirm("Clear all round marks and dots?")) return;
       model.main = [Array(ROUNDS).fill(0), Array(ROUNDS).fill(0)];
@@ -764,31 +567,26 @@
       render();
       save();
     });
-
     document.getElementById("swapBtn").addEventListener("click", () => {
       [model.teams[0], model.teams[1]] = [model.teams[1], model.teams[0]];
       [model.main[0], model.main[1]] = [model.main[1], model.main[0]];
       render();
       save();
     });
-
     document.getElementById("exportBtn").addEventListener("click", async () => {
       const payload = JSON.stringify(model, null, 2);
       try{
         await navigator.clipboard.writeText(payload);
         alert("Copied JSON to clipboard.");
-      }catch{
-        // fallback
+      } catch {
         prompt("Copy JSON:", payload);
       }
     });
-
     document.getElementById("importBtn").addEventListener("click", () => {
       const txt = prompt("Paste previously exported JSON:");
       if(!txt) return;
       const data = safeParseJSON(txt);
       if(!data){ alert("That wasn't valid JSON."); return; }
-      // overwrite and then load via our validator
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       load();
       buildGrid();
@@ -796,7 +594,6 @@
       save();
     });
 
-    // ---------- Boot ----------
     load();
     buildGrid();
     render();
