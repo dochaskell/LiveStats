@@ -33,15 +33,15 @@
     header{
       display:flex;
       gap:10px;
-      flex-wrap:wrap;
+      flex-wrap:nowrap;
       align-items:flex-end;
-      justify-content:space-between;
     }
     .controls{
       display:flex;
       gap:8px;
       flex-wrap:wrap;
       align-items:end;
+      flex:0 0 auto;
     }
     label{
       font-size:12px;
@@ -66,11 +66,42 @@
       cursor:pointer;
     }
     button:hover{border-color:#888}
-    .hint{
+    .ticker{
+      position:relative;
+      flex:1 1 0;
+      min-width:320px;
+      min-height:38px;
+      border:1px solid #ddd;
+      border-radius:8px;
+      background:#fafafa;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      padding:0 12px;
+    }
+    .ticker-line{
+      position:absolute;
+      left:12px;
+      right:12px;
       font-size:12px;
-      color:var(--muted);
       line-height:1.35;
-      max-width:680px;
+      color:#333;
+      font-weight:600;
+      opacity:0;
+      transform:translateY(100%);
+      animation:tickerRotate 16s infinite;
+      will-change:transform,opacity;
+    }
+    .ticker-line:nth-child(1){animation-delay:0s}
+    .ticker-line:nth-child(2){animation-delay:4s}
+    .ticker-line:nth-child(3){animation-delay:8s}
+    .ticker-line:nth-child(4){animation-delay:12s}
+    @keyframes tickerRotate{
+      0%{opacity:0;transform:translateY(100%)}
+      8%{opacity:1;transform:translateY(0)}
+      25%{opacity:1;transform:translateY(0)}
+      33%{opacity:0;transform:translateY(-100%)}
+      100%{opacity:0;transform:translateY(-100%)}
     }
     .board{
       overflow-x:auto;
@@ -146,27 +177,33 @@
     .stat{
       border:1px solid #eee;
       border-radius:10px;
-      padding:8px;
+      padding:8px 10px;
       background:#fafafa;
       min-width:0;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      align-items:center;
+      gap:10px;
     }
     .stat.team-a{ background:#ffecec; grid-column: span 2; }
     .stat.team-b{ background:#ecffec; grid-column: span 2; }
-      min-width:0;
-    }
     .stat .k{
       font-size:11px;
       color:var(--muted);
-      margin-bottom:4px;
-      line-height:1.3;
+      line-height:1.25;
+      margin:0;
+      min-width:0;
     }
     .stat .v{
       font-size:16px;
       font-weight:700;
-      overflow-wrap:anywhere;
+      text-align:right;
+      white-space:nowrap;
     }
     @media (max-width: 900px){
       :root{--cell:22px;--label-col:150px}
+      header{flex-wrap:wrap}
+      .ticker{flex-basis:100%; min-width:0}
       .statgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
       select,input[type="text"]{min-width:150px}
     }
@@ -193,8 +230,11 @@
         <button id="exportBtn" type="button">Export</button>
         <button id="importBtn" type="button">Import</button>
       </div>
-      <div class="hint">
-        Click round cells to cycle states. Hit cycles through A/B/C/?. Plant, Eco, and Clutch toggle on/off. Stats update live and autosave in your browser.
+      <div class="ticker" aria-label="Non-negotiable reminders">
+        <div class="ticker-line">Non-Negotiable: Emotional Control!</div>
+        <div class="ticker-line">Non-Negotiable: No free deaths! If you swing, it's for info, trade, or space with utility.</div>
+        <div class="ticker-line">Non-Negotiable: Trade rate standard. 2-man rule</div>
+        <div class="ticker-line">Non-Negotiable: Utility w/Purpose: Win Space, protect Space/Time, Isolate a fight, delay, plant/defuse</div>
       </div>
     </header>
 
