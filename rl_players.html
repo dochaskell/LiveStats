@@ -92,9 +92,6 @@
       background: linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.35));
     }
 
-    .slide-bg::before,
-    
-
     .layout {
       position: relative;
       height: 100%;
@@ -451,14 +448,20 @@
       background: rgba(0,0,0,0.2);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 999px;
-      padding: 8px 10px;
+      padding: 8px 12px;
+      transition: all .25s ease;
+    }
+
+    .helper:hover::after {
+      content: "  |  F = flip layout";
+      opacity: 1;
     }
   </style>
 </head>
 <body>
   <div class="frame" id="frame">
     <div id="slides"></div>
-    <div class="helper">F = flip layout</div>
+    <div class="helper" id="helper">12s</div>
   </div>
 
 <script>
@@ -481,7 +484,7 @@ const players = [
   ["S3TH","Seth Rushton","Utah","4-14",7,7,12,17,6,"Mechanical Engineering","https://i.ibb.co/Gvtyq3D2/Utah-Seth.png"],
   ["LlessuR","Matthew Russell","Syracuse","13-5",39,17,39,109,105,"Undeclared","https://i.imgur.com/bo8COEg.png"],
   ["TIZRL","Alex Ortiz-Rosado","Syracuse","13-5",34,26,60,115,23,"Undeclared","https://i.imgur.com/89g85Mq.png"],
-  ["Gababy","Gabriel Goodwin","Syracuse","13-5",24,37,55,94,69,"Business management","https://i.imgur.com/VngrJMN.png"],
+  ["Gababy","Gabriel Goodwin","Syracuse","13-5",24,37,55,94,69,"Business management","https://i.ibb.co/YTRzDCJj/SYR-gababy-RL.png"],
   ["gaines","Ilhan Ozdil","Ohio State","8-10",39,31,78,140,66,"Undeclared","https://i.ibb.co/N6rDmdxc/OSU-Rocket-League-Gaines02.png"],
   ["Bungo","Andrew Nikolai","Ohio State","8-10",35,27,76,145,26,"Undeclared","https://i.ibb.co/M5CxLqQb/Rocket-League-Bungo02.png"],
   ["danwad","Nick Danforth","Ohio State","8-10",22,18,35,70,22,"Undeclared","https://i.ibb.co/WN9Vfnjg/Rocket-League-Danwad02.png"],
@@ -617,6 +620,8 @@ container.innerHTML = players.map(slide).join("");
 const slides = [...document.querySelectorAll(".slide")];
 let current = 0;
 let timer = null;
+let duration = 12000; // ms (default 12s)
+let paused = false;
 
 function show(n) {
   slides.forEach((s, idx) => s.classList.toggle("active", idx === n));
@@ -629,25 +634,64 @@ function next() {
 
 function startRotation() {
   clearInterval(timer);
-  timer = setInterval(next, 12000);
+  if (!paused) {
+    timer = setInterval(next, duration);
+  }
 }
 
 show(0);
+updateHelper();
 startRotation();
 
 document.addEventListener("keydown", e => {
   if (e.key.toLowerCase() === "f") {
     document.getElementById("frame").classList.toggle("landscape");
   }
+
   if (e.key === "ArrowRight") {
     next();
     startRotation();
   }
+
   if (e.key === "ArrowLeft") {
     show((current - 1 + slides.length) % slides.length);
     startRotation();
   }
+
+  // Pause / Resume with Space
+  if (e.code === "Space") {
+    e.preventDefault();
+    paused = !paused;
+    if (paused) {
+      clearInterval(timer);
+    } else {
+      startRotation();
+    }
+    updateHelper();
+  }
+
+  if (e.key === "+" || e.key === "=") {
+    duration = Math.min(15000, duration + 1000);
+    updateHelper();
+    startRotation();
+  }
+
+  if (e.key === "-") {
+    duration = Math.max(5000, duration - 1000);
+    updateHelper();
+    startRotation();
+  }
 });
+
+function updateHelper() {
+  const helper = document.getElementById("helper");
+  if (paused) {
+    helper.textContent = "P";
+  } else {
+    const seconds = Math.round(duration / 1000);
+    helper.textContent = `${seconds}s`;
+  }
+}
 </script>
 </body>
 </html>
