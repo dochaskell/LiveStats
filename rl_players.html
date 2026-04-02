@@ -345,11 +345,12 @@
     }
 
     .stat-label {
-      font-size: 2rem;
+      font-size: 3.8rem;
       line-height: 1;
       letter-spacing: .05em;
       text-transform: uppercase;
       text-shadow: 0 4px 12px rgba(0,0,0,0.16);
+      font-weight: 900;
     }
 
     .frame.landscape .stat-label {
@@ -357,11 +358,12 @@
     }
 
     .stat-value {
-      font-size: 4rem;
+      font-size: 4.2rem;
       line-height: 1;
       color: var(--gold);
-      text-shadow: 0 6px 16px rgba(0,0,0,0.26);
+      text-shadow: 0 6px 16px rgba(0,0,0,0.3);
       white-space: nowrap;
+      font-weight: 900;
     }
 
     .frame.landscape .stat-value {
@@ -472,41 +474,40 @@ const schools = {
 };
 
 const players = [
-  ["durtho","Emiliano Flores","Boise State","15-3",69,39,72,205,56,"Health Studies","https://i.imgur.com/5rPBia8.png"],
-  ["WUZYWRLD","Cade Hall","Boise State","15-3",64,43,71,212,73,"Psychology","https://i.imgur.com/QehceP8.png"],
-  ["Andy","Andrew Nolan","Baylor","18-0",58,44,71,144,38,"Accounting","https://i.imgur.com/LV3CERv.png"],
-  ["prstn","Preston Ferrante","Boise State","15-3",52,58,77,169,51,"Business","https://i.imgur.com/Hmi9f4W.png"],
-  ["hockser","Colby James","Baylor","18-0",46,40,51,131,48,"Mechanical Engineering","https://i.imgur.com/Ka2svlb.png"],
-  ["Mintzy","Kade Wickham","Nebraska","6-12",41,27,79,118,65,"Marketing and Management","https://i.imgur.com/tvLX9G0.png"],
-  ["opp_bomb","Connor Neiheisel","Michigan State","14-4",40,16,44,125,80,"Computer Science","https://i.imgur.com/TireijF.png"],
-  ["gaines","Ilhan Ozdil","Ohio State","8-10",39,31,78,140,66,"Undeclared","https://i.ibb.co/KxLvQD5T/NAEagles-RL-OSU.png"],
-  ["LlessuR","Matthew Russell","Syracuse","13-5",39,17,39,109,105,"Undeclared","https://i.imgur.com/bo8COEg.png"],
-  ["Rad","Braden Raddatz","Minnesota","5-13",38,20,73,119,75,"Mechanical Engineering","https://i.imgur.com/c0zCMwA.png"],
-  ["Bungo","Andrew Nikolai","Ohio State","8-10",35,27,76,145,26,"Undeclared","https://i.ibb.co/LDzyzhYT/cozmo-RL-OSU.png"],
-  ["creedrl","Hugh Strumberger","Nebraska","6-12",34,32,69,134,44,"Computer Science","https://i.imgur.com/kHIdwQh.png"],
-  ["TIZRL","Alex Ortiz-Rosado","Syracuse","13-5",34,26,60,115,23,"Undeclared","https://i.imgur.com/89g85Mq.png"],
   ["Kelpy","Kelsan Chisholm","Utah","4-14",33,22,79,108,40,"Computer Engineering","https://i.ibb.co/rfbNGKVT/Utah-Kelpy-RL.png"],
   ["BranJ","Bransen Jorgensen","Utah","4-14",32,24,63,105,57,"Undeclared","https://i.ibb.co/2YnBmy7Y/Utah-Branj-RL.png"],
-  ["WarPai","Adan Alatoma","Minnesota","5-13",30,18,91,118,44,"Aerospace Engineering","https://i.imgur.com/Edzai4k.png"],
-  ["Morveu","Christian Riegert","Michigan State","14-4",27,30,41,95,34,"Digital Storytelling","https://i.imgur.com/wRqAfCO.png"],
-  ["Alpacca","Kyle Maddox","Kansas","7-11",27,21,42,83,62,"Mechanical Engineering","https://i.imgur.com/zsZoRff.png"],
-  ["Promising RL","Benjamin Priest","Nebraska","6-12",27,26,90,104,48,"Accounting","https://i.imgur.com/siZ25YV.jpeg"],
-  ["jt25rl","Joseph Tornari","Baylor","18-0",26,19,14,71,44,"-","-"],
-  ["meve","Maddox Stueve","Kansas","7-11",24,18,71,84,25,"Business","https://i.imgur.com/MvstQiK.png"],
-  ["Gababy","Gabriel Goodwin","Syracuse","13-5",24,37,55,94,69,"Business management","https://i.imgur.com/VngrJMN.png"],
-  ["danwad","Nick Danforth","Ohio State","8-10",22,18,35,70,22,"Undeclared","-"],
-  ["nock","Nicholas Dowdican","Michigan State","14-4",21,18,36,67,45,"Finance","https://i.ibb.co/SRRZf8v/Nock.png"],
-  ["mralexplas","Alex Pupp","Minnesota","5-13",20,20,50,60,67,"Computer science","https://i.ibb.co/5WzfvLJf/RAD-braden-raddatz.png"],
-  ["Swift","Landon Swift","Kansas","7-11",19,19,44,75,55,"Psychology","https://i.imgur.com/isAKpTy.png"],
-  ["CJ","Christopher Wood","Ohio State","8-10",18,13,30,58,35,"Undeclared","-"],
-  ["Zineel","Kadin Zineelabidine","Baylor","18-0",14,15,13,47,16,"Undeclared","https://i.imgur.com/YZRyqZg.png"],
-  ["Druee","Andrew Prill","Michigan State","14-4",12,12,24,48,19,"-","-"],
-  ["Alphy1","Alphonce Ayega","Minnesota","5-13",9,4,25,22,7,"Computer Science","https://i.imgur.com/QE9we8n.png"],
   ["Hydro","Trey Johnson","Utah","4-14",9,10,25,40,16,"Earth Science","https://i.ibb.co/dJBZwDw8/Utah-Hyrdo-RL.png"],
   ["S3TH","Seth Rushton","Utah","4-14",7,7,12,17,6,"Mechanical Engineering","https://i.ibb.co/Gvtyq3D2/Utah-Seth.png"],
+  ["LlessuR","Matthew Russell","Syracuse","13-5",39,17,39,109,105,"Undeclared","https://i.imgur.com/bo8COEg.png"],
+  ["TIZRL","Alex Ortiz-Rosado","Syracuse","13-5",34,26,60,115,23,"Undeclared","https://i.imgur.com/89g85Mq.png"],
+  ["Gababy","Gabriel Goodwin","Syracuse","13-5",24,37,55,94,69,"Business management","https://i.imgur.com/VngrJMN.png"],
+  ["gaines","Ilhan Ozdil","Ohio State","8-10",39,31,78,140,66,"Undeclared","https://i.ibb.co/N6rDmdxc/OSU-Rocket-League-Gaines02.png"],
+  ["Bungo","Andrew Nikolai","Ohio State","8-10",35,27,76,145,26,"Undeclared","https://i.ibb.co/M5CxLqQb/Rocket-League-Bungo02.png"],
+  ["danwad","Nick Danforth","Ohio State","8-10",22,18,35,70,22,"Undeclared","https://i.ibb.co/WN9Vfnjg/Rocket-League-Danwad02.png"],
+  ["CJ","Christopher Wood","Ohio State","8-10",18,13,30,58,35,"Undeclared","-"],
+  ["Mintzy","Kade Wickham","Nebraska","6-12",41,27,79,118,65,"Marketing and Management","https://i.imgur.com/tvLX9G0.png"],
+  ["creedrl","Hugh Strumberger","Nebraska","6-12",34,32,69,134,44,"Computer Science","https://i.imgur.com/kHIdwQh.png"],
+  ["Promising RL","Benjamin Priest","Nebraska","6-12",27,26,90,104,48,"Accounting","https://i.imgur.com/siZ25YV.jpeg"],
+  ["CyanDelta","Brody Knaak","Nebraska","6-12",2,1,3,4,8,"Viola Performance / Mechanical Engineering","https://i.imgur.com/j2y0GKc.png"],
+  ["Rad","Braden Raddatz","Minnesota","5-13",38,20,73,119,75,"Mechanical Engineering","https://i.imgur.com/c0zCMwA.png"],
+  ["WarPai","Adan Alatoma","Minnesota","5-13",30,18,91,118,44,"Aerospace Engineering","https://i.imgur.com/Edzai4k.png"],
+  ["mralexplas","Alex Pupp","Minnesota","5-13",20,20,50,60,67,"Computer science","https://i.ibb.co/5WzfvLJf/RAD-braden-raddatz.png"],
+  ["Alphy1","Alphonce Ayega","Minnesota","5-13",9,4,25,22,7,"Computer Science","https://i.imgur.com/QE9we8n.png"],
+  ["opp_bomb","Connor Neiheisel","Michigan State","14-4",40,16,44,125,80,"Computer Science","https://i.imgur.com/JEhBzqK.png"],
+  ["Morveu","Christian Riegert","Michigan State","14-4",27,30,41,95,34,"Digital Storytelling","https://i.imgur.com/J24vIrn.png"],
+  ["nock","Nicholas Dowdican","Michigan State","14-4",21,18,36,67,45,"Finance","https://i.ibb.co/SRRZf8v/Nock.png"],
+  ["Druee","Andrew Prill","Michigan State","14-4",12,12,24,48,19,"-","-"],
   ["sibs","Sahib Dhillon","Michigan State","14-4",5,5,12,13,12,"-","-"],
-  ["NanoB9","Ben Curiel","Syracuse","13-5",3,1,8,14,6,"-","-"],
-  ["CyanDelta","Brody Knaak","Nebraska","6-12",2,1,3,4,8,"Viola Performance / Mechanical Engineering","https://i.imgur.com/j2y0GKc.png"]
+  ["Alpacca","Kyle Maddox","Kansas","7-11",27,21,42,83,62,"Mechanical Engineering","https://i.imgur.com/zsZoRff.png"],
+  ["meve","Maddox Stueve","Kansas","7-11",24,18,71,84,25,"Business","https://i.imgur.com/MvstQiK.png"],
+  ["Swift","Landon Swift","Kansas","7-11",19,19,44,75,55,"Psychology","https://i.imgur.com/isAKpTy.png"],
+  ["durtho","Emiliano Flores","Boise State","15-3",69,39,72,205,56,"Health Studies","https://i.imgur.com/5rPBia8.png"],
+  ["WUZYWRLD","Cade Hall","Boise State","15-3",64,43,71,212,73,"Psychology","https://i.imgur.com/QehceP8.png"],
+  ["prstn","Preston Ferrante","Boise State","15-3",52,58,77,169,51,"Business","https://i.imgur.com/Hmi9f4W.png"],
+  ["Andy","Andrew Nolan","Baylor","18-0",58,44,71,144,38,"Accounting","https://i.imgur.com/LV3CERv.png"],
+  ["hockser","Colby James","Baylor","18-0",46,40,51,131,48,"Mechanical Engineering","https://i.imgur.com/Ka2svlb.png"],
+  ["jt25rl","Joseph Tornari","Baylor","18-0",26,19,14,71,44,"-","https://i.ibb.co/CKx6Pt4j/si-Z25-YV-no-bg-c4csio0k.png"],
+  ["Zineel","Kadin Zineelabidine","Baylor","18-0",14,15,13,47,16,"Undeclared","https://i.imgur.com/YZRyqZg.png"]
 ].map(p => ({
   gamerTag: p[0],
   irlName: p[1],
