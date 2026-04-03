@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rocket League Players</title>
+<style>
+  body{margin:0;font-family:Inter,system-ui;background:#0b1020;color:#fff;padding:16px}
+  .wrap{max-width:1400px;margin:auto}
+  .topbar{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin:0 0 12px}
+  h1{margin:0;font-size:22px}
+  .subtitle{margin:4px 0 0;color:#a9b4c9;font-size:12px}
+  .legend{display:flex;gap:8px;flex-wrap:wrap;font-size:11px;color:#d7deee}
+  .pill{padding:5px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05)}
+  .pill.first{background:rgba(255,215,0,.14);border-color:rgba(255,215,0,.35)}
+  .pill.second{background:rgba(116,185,255,.14);border-color:rgba(116,185,255,.35)}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th,td{padding:6px 8px;text-align:left}
+  th{color:#a9b4c9;font-weight:600;border-bottom:1px solid rgba(255,255,255,.1)}
+  td{border-bottom:1px solid rgba(255,255,255,.06)}
+  tr.player-row{cursor:pointer;transition:background .15s ease, box-shadow .15s ease}
+  tr.player-row:hover{background:rgba(255,255,255,.04)}
+  tr.player-row.selected-first{background:rgba(255,215,0,.14)}
+  tr.player-row.selected-second{background:rgba(116,185,255,.14)}
+  tr.player-row.selected-first td:first-child,
+  tr.player-row.selected-second td:first-child{box-shadow:inset 3px 0 0 currentColor}
+  tr.player-row.selected-first td:first-child{color:#ffd54a}
+  tr.player-row.selected-second td:first-child{color:#7fc6ff}
+  .school{background:rgba(255,255,255,.06);font-weight:700}
+  .record{color:#a9b4c9;font-weight:500;margin-left:6px}
+  .avatar{width:28px;height:28px;border-radius:6px;object-fit:cover;vertical-align:middle;margin-right:6px;flex:0 0 28px}
+  .name{display:flex;align-items:center;gap:6px}
+  .muted{color:#a9b4c9;font-size:11px}
+  .points-badge{display:inline-flex;align-items:center;justify-content:center;min-width:34px;padding:3px 8px;border-radius:999px;font-weight:700;background:rgba(255,255,255,.06);color:#a9b4c9;border:1px solid rgba(255,255,255,.08)}
+  tr.player-row.selected-first .points-badge{background:rgba(255,215,0,.18);border-color:rgba(255,215,0,.35);color:#ffd54a}
+  tr.player-row.selected-second .points-badge{background:rgba(116,185,255,.18);border-color:rgba(116,185,255,.35);color:#7fc6ff}
+  .hint{color:#a9b4c9;font-size:11px;margin-top:8px}
+  @media (max-width: 900px){
+    body{padding:10px}
+    .topbar{flex-direction:column;align-items:flex-start}
+    table{font-size:11px}
+    th,td{padding:5px 6px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1>Rocket League Players by School</h1>
+      <div class="subtitle">Click players to assign points. Each school can award one 5-point selection and one 2-point selection.</div>
+    </div>
+    <div class="legend">
+      <span class="pill first">1st pick = 5 pts</span>
+      <span class="pill second">2nd pick = 2 pts</span>
+      <span class="pill">Click again to remove</span>
+    </div>
+  </div>
+<table>
+<thead>
+<tr>
+<th>Player</th>
+<th>School</th>
+<th>Pts</th>
+<th>G</th>
+<th>A</th>
+<th>SV</th>
+<th>SH</th>
+<th>DM</th>
+<th class="muted">Major</th>
+</tr>
+</thead>
+<tbody>
+
+<tr class="school"><td colspan="9">Baylor <span class="record">18-0</span></td></tr>
+<tr class="player-row" data-school="Baylor"><td class="name"><img class="avatar" src="https://i.imgur.com/LV3CERv.png">Andy</td><td>Baylor</td><td><span class="points-badge">0</span></td><td>58</td><td>44</td><td>71</td><td>144</td><td>38</td><td class="muted">Accounting</td></tr>
+<tr class="player-row" data-school="Baylor"><td class="name"><img class="avatar" src="https://i.imgur.com/Ka2svlb.png">hockser</td><td>Baylor</td><td><span class="points-badge">0</span></td><td>46</td><td>40</td><td>51</td><td>131</td><td>48</td><td class="muted">Mechanical Engineering</td></tr>
+<tr class="player-row" data-school="Baylor"><td class="name"><img class="avatar" src="https://i.imgur.com/YZRyqZg.png">Zineel</td><td>Baylor</td><td><span class="points-badge">0</span></td><td>14</td><td>15</td><td>13</td><td>47</td><td>16</td><td class="muted">Undeclared</td></tr>
+
+<tr class="school"><td colspan="9">Boise State <span class="record">15-3</span></td></tr>
+<tr class="player-row" data-school="Boise State"><td class="name"><img class="avatar" src="https://i.imgur.com/5rPBia8.png">durtho</td><td>Boise State</td><td><span class="points-badge">0</span></td><td>69</td><td>39</td><td>72</td><td>205</td><td>56</td><td class="muted">Health Studies</td></tr>
+<tr class="player-row" data-school="Boise State"><td class="name"><img class="avatar" src="https://i.imgur.com/QehceP8.png">WUZYWRLD</td><td>Boise State</td><td><span class="points-badge">0</span></td><td>64</td><td>43</td><td>71</td><td>212</td><td>73</td><td class="muted">Psychology</td></tr>
+<tr class="player-row" data-school="Boise State"><td class="name"><img class="avatar" src="https://i.imgur.com/Hmi9f4W.png">prstn</td><td>Boise State</td><td><span class="points-badge">0</span></td><td>52</td><td>58</td><td>77</td><td>169</td><td>51</td><td class="muted">Business</td></tr>
+
+<tr class="school"><td colspan="9">Michigan State <span class="record">14-4</span></td></tr>
+<tr class="player-row" data-school="Michigan State"><td class="name"><img class="avatar" src="https://i.imgur.com/JEhBzqK.png">opp_bomb</td><td>Michigan State</td><td><span class="points-badge">0</span></td><td>40</td><td>16</td><td>44</td><td>125</td><td>80</td><td class="muted">Computer Science</td></tr>
+<tr class="player-row" data-school="Michigan State"><td class="name"><img class="avatar" src="https://i.imgur.com/J24vIrn.png">Morveu</td><td>Michigan State</td><td><span class="points-badge">0</span></td><td>27</td><td>30</td><td>41</td><td>95</td><td>34</td><td class="muted">Digital Storytelling</td></tr>
+<tr class="player-row" data-school="Michigan State"><td class="name"><img class="avatar" src="https://i.ibb.co/SRRZf8v/Nock.png">nock</td><td>Michigan State</td><td><span class="points-badge">0</span></td><td>21</td><td>18</td><td>36</td><td>67</td><td>45</td><td class="muted">Finance</td></tr>
+<tr class="player-row" data-school="Michigan State"><td class="name">Druee</td><td>Michigan State</td><td><span class="points-badge">0</span></td><td>12</td><td>12</td><td>24</td><td>48</td><td>19</td><td class="muted">-</td></tr>
+<tr class="player-row" data-school="Michigan State"><td class="name">sibs</td><td>Michigan State</td><td><span class="points-badge">0</span></td><td>5</td><td>5</td><td>12</td><td>13</td><td>12</td><td class="muted">-</td></tr>
+
+<tr class="school"><td colspan="9">Syracuse <span class="record">13-5</span></td></tr>
+<tr class="player-row" data-school="Syracuse"><td class="name"><img class="avatar" src="https://i.imgur.com/VngrJMN.png">LlessuR</td><td>Syracuse</td><td><span class="points-badge">0</span></td><td>39</td><td>17</td><td>39</td><td>109</td><td>105</td><td class="muted">Undeclared</td></tr>
+<tr class="player-row" data-school="Syracuse"><td class="name"><img class="avatar" src="https://i.imgur.com/89g85Mq.png">TIZRL</td><td>Syracuse</td><td><span class="points-badge">0</span></td><td>34</td><td>26</td><td>60</td><td>115</td><td>23</td><td class="muted">Undeclared</td></tr>
+<tr class="player-row" data-school="Syracuse"><td class="name"><img class="avatar" src="https://i.imgur.com/bo8COEg.png">Gababy</td><td>Syracuse</td><td><span class="points-badge">0</span></td><td>24</td><td>37</td><td>55</td><td>94</td><td>69</td><td class="muted">Business</td></tr>
+
+<tr class="school"><td colspan="9">Utah <span class="record">4-14</span></td></tr>
+<tr class="player-row" data-school="Utah"><td class="name"><img class="avatar" src="https://i.ibb.co/rfbNGKVT/Utah-Kelpy-RL.png">Kelpy</td><td>Utah</td><td><span class="points-badge">0</span></td><td>33</td><td>22</td><td>79</td><td>108</td><td>40</td><td class="muted">Comp Eng</td></tr>
+<tr class="player-row" data-school="Utah"><td class="name"><img class="avatar" src="https://i.ibb.co/2YnBmy7Y/Utah-Branj-RL.png">BranJ</td><td>Utah</td><td><span class="points-badge">0</span></td><td>32</td><td>24</td><td>63</td><td>105</td><td>57</td><td class="muted">Undeclared</td></tr>
+<tr class="player-row" data-school="Utah"><td class="name"><img class="avatar" src="https://i.ibb.co/dJBZwDw8/Utah-Hyrdo-RL.png">Hydro</td><td>Utah</td><td><span class="points-badge">0</span></td><td>9</td><td>10</td><td>25</td><td>40</td><td>16</td><td class="muted">Earth Sci</td></tr>
+<tr class="player-row" data-school="Utah"><td class="name"><img class="avatar" src="https://i.ibb.co/Gvtyq3D2/Utah-Seth.png">S3TH</td><td>Utah</td><td><span class="points-badge">0</span></td><td>7</td><td>7</td><td>12</td><td>17</td><td>6</td><td class="muted">Mech Eng</td></tr>
+
+<tr class="school"><td colspan="9">Ohio State <span class="record">8-10</span></td></tr>
+<tr class="player-row" data-school="Ohio State"><td class="name"><img class="avatar" src="https://i.ibb.co/N6rDmdxc/OSU-Rocket-League-Gaines02.png">gaines</td><td>Ohio State</td><td><span class="points-badge">0</span></td><td>39</td><td>31</td><td>78</td><td>140</td><td>66</td><td class="muted">Undeclared</td></tr>
+<tr class="player-row" data-school="Ohio State"><td class="name"><img class="avatar" src="https://i.ibb.co/M5CxLqQb/Rocket-League-Bungo02.png">Bungo</td><td>Ohio State</td><td><span class="points-badge">0</span></td><td>35</td><td>27</td><td>76</td><td>145</td><td>26</td><td class="muted">Undeclared</td></tr>
+<tr class="player-row" data-school="Ohio State"><td class="name"><img class="avatar" src="https://i.ibb.co/WN9Vfnjg/Rocket-League-Danwad02.png">danwad</td><td>Ohio State</td><td><span class="points-badge">0</span></td><td>22</td><td>18</td><td>35</td><td>70</td><td>22</td><td class="muted">Undeclared</td></tr>
+<tr class="player-row" data-school="Ohio State"><td class="name">CJ</td><td>Ohio State</td><td><span class="points-badge">0</span></td><td>18</td><td>13</td><td>30</td><td>58</td><td>35</td><td class="muted">Undeclared</td></tr>
+
+<tr class="school"><td colspan="9">Kansas <span class="record">7-11</span></td></tr>
+<tr class="player-row" data-school="Kansas"><td class="name"><img class="avatar" src="https://i.imgur.com/zsZoRff.png">Alpacca</td><td>Kansas</td><td><span class="points-badge">0</span></td><td>27</td><td>21</td><td>42</td><td>83</td><td>62</td><td class="muted">Mechanical Engineering</td></tr>
+<tr class="player-row" data-school="Kansas"><td class="name"><img class="avatar" src="https://i.imgur.com/MvstQiK.png">meve</td><td>Kansas</td><td><span class="points-badge">0</span></td><td>24</td><td>18</td><td>71</td><td>84</td><td>25</td><td class="muted">Business</td></tr>
+<tr class="player-row" data-school="Kansas"><td class="name"><img class="avatar" src="https://i.imgur.com/isAKpTy.png">Swift</td><td>Kansas</td><td><span class="points-badge">0</span></td><td>19</td><td>19</td><td>44</td><td>75</td><td>55</td><td class="muted">Psychology</td></tr>
+
+<tr class="school"><td colspan="9">Nebraska <span class="record">6-12</span></td></tr>
+<tr class="player-row" data-school="Nebraska"><td class="name"><img class="avatar" src="https://i.imgur.com/tvLX9G0.png">Mintzy</td><td>Nebraska</td><td><span class="points-badge">0</span></td><td>41</td><td>27</td><td>79</td><td>118</td><td>65</td><td class="muted">Marketing</td></tr>
+<tr class="player-row" data-school="Nebraska"><td class="name"><img class="avatar" src="https://i.imgur.com/kHIdwQh.png">creedrl</td><td>Nebraska</td><td><span class="points-badge">0</span></td><td>34</td><td>32</td><td>69</td><td>134</td><td>44</td><td class="muted">CS</td></tr>
+<tr class="player-row" data-school="Nebraska"><td class="name"><img class="avatar" src="https://i.imgur.com/siZ25YV.jpeg">Promising RL</td><td>Nebraska</td><td><span class="points-badge">0</span></td><td>27</td><td>26</td><td>90</td><td>104</td><td>48</td><td class="muted">Accounting</td></tr>
+<tr class="player-row" data-school="Nebraska"><td class="name"><img class="avatar" src="https://i.imgur.com/j2y0GKc.png">CyanDelta</td><td>Nebraska</td><td><span class="points-badge">0</span></td><td>2</td><td>1</td><td>3</td><td>4</td><td>8</td><td class="muted">Viola/ME</td></tr>
+
+<tr class="school"><td colspan="9">Minnesota <span class="record">5-13</span></td></tr>
+<tr class="player-row" data-school="Minnesota"><td class="name"><img class="avatar" src="https://i.imgur.com/c0zCMwA.png">Rad</td><td>Minnesota</td><td><span class="points-badge">0</span></td><td>38</td><td>20</td><td>73</td><td>119</td><td>75</td><td class="muted">ME</td></tr>
+<tr class="player-row" data-school="Minnesota"><td class="name"><img class="avatar" src="https://i.imgur.com/Edzai4k.png">WarPai</td><td>Minnesota</td><td><span class="points-badge">0</span></td><td>30</td><td>18</td><td>91</td><td>118</td><td>44</td><td class="muted">Aero</td></tr>
+<tr class="player-row" data-school="Minnesota"><td class="name"><img class="avatar" src="https://i.ibb.co/5WzfvLJf/RAD-braden-raddatz.png">mralexplas</td><td>Minnesota</td><td><span class="points-badge">0</span></td><td>20</td><td>20</td><td>50</td><td>60</td><td>67</td><td class="muted">CS</td></tr>
+<tr class="player-row" data-school="Minnesota"><td class="name"><img class="avatar" src="https://i.imgur.com/QE9we8n.png">Alphy1</td><td>Minnesota</td><td><span class="points-badge">0</span></td><td>9</td><td>4</td><td>25</td><td>22</td><td>7</td><td class="muted">CS</td></tr>
+
+</tbody>
+</table>
+
+<div style="margin-top:12px;display:flex;gap:10px;align-items:center;">
+  
+  <button id="copyBtn" style="padding:8px 14px;border-radius:8px;border:none;background:#2d3748;color:white;font-weight:600;cursor:pointer;">Copy Results</button>
+  <span class="hint">Exports selections per school</span>
+</div>
+
+<pre id="output" style="margin-top:10px;background:#060b18;padding:10px;border-radius:8px;font-size:11px;color:#cbd5f5;max-height:200px;overflow:auto;"></pre>
+<div class="hint">Selections are limited to two players per school. The first selected player gets 5 points, and the second gets 2 points.</div>
+</div>
+<script>
+  const selectionsBySchool = {};
+  const rows = document.querySelectorAll('.player-row');
+
+  function updateSchool(school) {
+    const selected = selectionsBySchool[school] || [];
+    document.querySelectorAll(`.player-row[data-school="${CSS.escape(school)}"]`).forEach((row) => {
+      row.classList.remove('selected-first', 'selected-second');
+      const badge = row.querySelector('.points-badge');
+      const idx = selected.indexOf(row);
+      if (idx === 0) {
+        row.classList.add('selected-first');
+        badge.textContent = '5';
+      } else if (idx === 1) {
+        row.classList.add('selected-second');
+        badge.textContent = '2';
+      } else {
+        badge.textContent = '0';
+      }
+    });
+  }
+
+  rows.forEach((row) => {
+    row.addEventListener('click', () => {
+      const school = row.dataset.school;
+      if (!selectionsBySchool[school]) selectionsBySchool[school] = [];
+      const selected = selectionsBySchool[school];
+      const existingIndex = selected.indexOf(row);
+
+      if (existingIndex !== -1) {
+        selected.splice(existingIndex, 1);
+      } else {
+        if (selected.length >= 2) return;
+        selected.push(row);
+      }
+
+      updateSchool(school);
+    });
+  });
+
+
+  function getResults() {
+    const result = {};
+    for (const school in selectionsBySchool) {
+      result[school] = selectionsBySchool[school].map((row, idx) => {
+        const name = row.querySelector('.name').innerText.trim();
+        return {
+          player: name,
+          points: idx === 0 ? 5 : 2
+        };
+      });
+    }
+    return result;
+  }
+
+  document.getElementById('copyBtn').addEventListener('click', () => {
+    const data = JSON.stringify(getResults(), null, 2);
+    navigator.clipboard.writeText(data);
+  });
+
+</script>
+</body>
+</html>
