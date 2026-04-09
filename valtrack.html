@@ -214,8 +214,16 @@
     <header>
       <div class="controls">
         <label>
+          Matchup
+          <select id="matchupSelect"></select>
+        </label>
+        <button id="newMatchBtn" type="button">New Matchup</button>
+        <button id="saveAsBtn" type="button">Save As</button>
+        <button id="deleteMatchBtn" type="button">Delete</button>
+        <label>
           Map
           <select id="mapSelect">
+            <option>Ascent</option>
             <option>Bind</option>
             <option>Breeze</option>
             <option>Fracture</option>
@@ -253,34 +261,136 @@
     const MAIN_STATES = ["", "–", "+", "X", "X", "𝕏"];
     const HIT_STATES = ["", "A", "B", "C", "?"];
     const STORAGE_KEY = "valorant_round_tracker_v3_compact";
+    const MATCHUPS_KEY = "valorant_round_tracker_matchups_v1";
+    const ACTIVE_MATCHUP_KEY = "valorant_round_tracker_active_matchup_v1";
 
-    const model = {
-      map: "Ascent",
-      teams: ["Team A", "Team B"],
-      main: [Array(ROUNDS).fill(0), Array(ROUNDS).fill(0)],
-      dots: {
-        Plant: Array(ROUNDS).fill(false),
-        Eco: Array(ROUNDS).fill(false),
-        Clutch: Array(ROUNDS).fill(false),
-      },
-      hits: Array(ROUNDS).fill(0)
-    };
+    function createDefaultModel(){
+      return {
+        map: "Ascent",
+        teams: ["Team A", "Team B"],
+        main: [Array(ROUNDS).fill(0), Array(ROUNDS).fill(0)],
+        dots: {
+          Plant: Array(ROUNDS).fill(false),
+          Eco: Array(ROUNDS).fill(false),
+          Clutch: Array(ROUNDS).fill(false),
+        },
+        hits: Array(ROUNDS).fill(0)
+      };
+    }
+
+    const model = createDefaultModel();
 
     const gridEl = document.getElementById("grid");
     const mapSelect = document.getElementById("mapSelect");
+    const matchupSelect = document.getElementById("matchupSelect");
     const statgrid = document.getElementById("statgrid");
 
     function safeParseJSON(text){
       try{return JSON.parse(text)}catch{return null}
     }
-    function save(){
+    function makeId(){
+      return `match_${Date.now()}_${Math.random().toString(36).slice(2,8)}`;
+    }
+    function createMatchName(){
+      const a = model.teams[0] || "Team A";
+      const b = model.teams[1] || "Team B";
+      return `${a} vs ${b} (${model.map})`;
+    }
+    function getMatchups(){
+      const raw = localStorage.getItem(MATCHUPS_KEY);
+      const data = safeParseJSON(raw || "[]");
+      return Array.isArray(data) ? data : [];
+    }
+    function setMatchups(matchups){
+      localStorage.setItem(MATCHUPS_KEY, JSON.stringify(matchups));
+    }
+    function getActiveMatchupId(){
+      return localStorage.getItem(ACTIVE_MATCHUP_KEY) || "";
+    }
+    function setActiveMatchupId(id){
+      localStorage.setItem(ACTIVE_MATCHUP_KEY, id);
+    }
+    function renderMatchupOptions(selectedId = getActiveMatchupId()){
+      const matchups = getMatchups();
+      matchupSelect.innerHTML = "";
+      if(!matchups.length){
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "Current unsaved matchup";
+        matchupSelect.appendChild(opt);
+        matchupSelect.value = "";
+        return;
+      }
+      for(const m of matchups){
+        const opt = document.createElement("option");
+        opt.value = m.id;
+        opt.textContent = m.name || "Untitled matchup";
+        matchupSelect.appendChild(opt);
+      }
+      matchupSelect.value = matchups.some(m => m.id === selectedId) ? selectedId : matchups[0].id;
+    }
+    function saveLegacySnapshot(){
       localStorage.setItem(STORAGE_KEY, JSON.stringify(model));
     }
-    function load(){
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if(!raw) return;
-      const data = safeParseJSON(raw);
-      if(!data) return;
+    function save(){
+      saveLegacySnapshot();
+      const activeId = getActiveMatchupId();
+      if(!activeId) return;
+      const matchups = getMatchups();
+      const idx = matchups.findIndex(m => m.id === activeId);
+      if(idx === -1) return;
+      matchups[idx] = {
+        ...matchups[idx],
+        name: matchups[idx].name || createMatchName(),
+        updatedAt: new Date().toISOString(),
+        data: JSON.parse(JSON.stringify(model))
+      };
+      setMatchups(matchups);
+      renderMatchupOptions(activeId);
+    }
+    function saveCurrentAsNewMatchup(name){
+      const id = makeId();
+      const matchups = getMatchups();
+      matchups.unshift({
+        id,
+        name: name || createMatchName(),
+        updatedAt: new Date().toISOString(),
+        data: JSON.parse(JSON.stringify(model))
+      });
+      setMatchups(matchups);
+      setActiveMatchupId(id);
+      renderMatchupOptions(id);
+      saveLegacySnapshot();
+      return id;
+    }
+    function loadMatchupById(id){
+      const matchup = getMatchups().find(m => m.id === id);
+      if(!matchup || !matchup.data) return false;
+      applyData(matchup.data);
+      setActiveMatchupId(id);
+      buildGrid();
+      render();
+      saveLegacySnapshot();
+      renderMatchupOptions(id);
+      return true;
+    }
+    function createNewBlankMatchup(){
+      resetModel();
+      const name = prompt("Name this matchup:", createMatchName()) || createMatchName();
+      saveCurrentAsNewMatchup(name);
+      buildGrid();
+      render();
+    }
+    function resetModel(){
+      const fresh = createDefaultModel();
+      model.map = fresh.map;
+      model.teams = fresh.teams;
+      model.main = fresh.main;
+      model.dots = fresh.dots;
+      model.hits = fresh.hits;
+    }
+    function applyData(data){
+      resetModel();
       if(typeof data.map === "string") model.map = data.map;
       if(Array.isArray(data.teams) && data.teams.length === 2){
         model.teams = [String(data.teams[0] ?? "Team A"), String(data.teams[1] ?? "Team B")];
@@ -302,6 +412,36 @@
       if(Array.isArray(data.hits) && data.hits.length === ROUNDS){
         model.hits = data.hits.map(v => Number.isInteger(v) ? Math.max(0, Math.min(4, v)) : 0);
       }
+      if(![...mapSelect.options].some(opt => opt.value === model.map)){
+        const option = document.createElement("option");
+        option.value = model.map;
+        option.textContent = model.map;
+        mapSelect.appendChild(option);
+      }
+    }
+    function load(){
+      const activeId = getActiveMatchupId();
+      const matchups = getMatchups();
+      if(activeId){
+        const active = matchups.find(m => m.id === activeId);
+        if(active && active.data){
+          applyData(active.data);
+          renderMatchupOptions(activeId);
+          return;
+        }
+      }
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        const data = safeParseJSON(raw);
+        if(data){
+          applyData(data);
+          const migratedId = saveCurrentAsNewMatchup(createMatchName());
+          renderMatchupOptions(migratedId);
+          return;
+        }
+      }
+      const starterId = saveCurrentAsNewMatchup(createMatchName());
+      renderMatchupOptions(starterId);
     }
 
     function countStates(arr, state){
@@ -381,7 +521,6 @@
           if(model.main[other][roundIdx] === 4 || model.main[other][roundIdx] === 5) model.main[other][roundIdx] = 3;
           model.main[teamIdx][roundIdx] = 1;
         } else if(next === 2){
-          // '+' should also be mutually exclusive with opponent first-death
           if(isFirstDeath(model.main[other][roundIdx])) model.main[other][roundIdx] = 0;
           if(model.main[other][roundIdx] === 4 || model.main[other][roundIdx] === 5) model.main[other][roundIdx] = 3;
           model.main[teamIdx][roundIdx] = 2;
@@ -409,16 +548,14 @@
         const h = document.createElement("div");
         h.className = "cell header-cell";
         h.textContent = i;
+        h.title = `Clear round ${i}`;
         h.addEventListener("click", () => {
           const idx = i - 1;
-          // clear both teams
           model.main[0][idx] = 0;
           model.main[1][idx] = 0;
-          // clear dots
           model.dots.Plant[idx] = false;
           model.dots.Eco[idx] = false;
           model.dots.Clutch[idx] = false;
-          // clear hit
           model.hits[idx] = 0;
           render();
           save();
@@ -545,42 +682,37 @@
 
       const atkCounts = [[0,0,0],[0,0,0]];
       const atkWins = [[0,0,0],[0,0,0]];
-      const defCounts = [[0,0,0],[0,0,0]];
-      const defWins = [[0,0,0],[0,0,0]];
 
       for(let i=0;i<ROUNDS;i++){
         const hv = model.hits[i] || 0;
         if(hv >= 1 && hv <= 3){
           const site = hv - 1;
           const atk = attackingTeamForRound(i);
-          const def = 1 - atk;
           atkCounts[atk][site]++;
-          defCounts[def][site]++;
           if(isWin(model.main[atk][i])) atkWins[atk][site]++;
-          if(isWin(model.main[def][i])) defWins[def][site]++;
         }
       }
 
-      const aItems = [
+      const items = [
         {k:`${model.teams[0]} win rate`, v:t0.winRate},
-        {k:`${model.teams[0]} FK`, v:winnerRounds ? `${fk0}/${winnerRounds} → ${pct(fk0, winnerRounds)}` : String(fk0)},
-        {k:`${model.teams[0]} FK win rate`, v:fk0 ? `${fkWins0}/${fk0} → ${pct(fkWins0, fk0)}` : "–"},
-        {k:`${model.teams[0]} ATK A/B/C`, v:joinCounts(atkCounts[0])},
-        {k:`${model.teams[0]} ATK win%`, v:joinRates(atkWins[0], atkCounts[0])},
-      ];
-      const bItems = [
         {k:`${model.teams[1]} win rate`, v:t1.winRate},
+        {k:`${model.teams[0]} FK`, v:winnerRounds ? `${fk0}/${winnerRounds} → ${pct(fk0, winnerRounds)}` : String(fk0)},
         {k:`${model.teams[1]} FK`, v:winnerRounds ? `${fk1}/${winnerRounds} → ${pct(fk1, winnerRounds)}` : String(fk1)},
+        {k:`${model.teams[0]} FK win rate`, v:fk0 ? `${fkWins0}/${fk0} → ${pct(fkWins0, fk0)}` : "–"},
         {k:`${model.teams[1]} FK win rate`, v:fk1 ? `${fkWins1}/${fk1} → ${pct(fkWins1, fk1)}` : "–"},
+        {k:`${model.teams[0]} Plant wins`, v:plants ? `${plantWins0}/${plants} → ${pct(plantWins0, plants)}` : "–"},
+        {k:`${model.teams[1]} Plant wins`, v:plants ? `${plantWins1}/${plants} → ${pct(plantWins1, plants)}` : "–"},
+        {k:`${model.teams[0]} Eco wins`, v:ecos ? `${ecoWins0}/${ecos} → ${pct(ecoWins0, ecos)}` : "–"},
+        {k:`${model.teams[1]} Eco wins`, v:ecos ? `${ecoWins1}/${ecos} → ${pct(ecoWins1, ecos)}` : "–"},
+        {k:`${model.teams[0]} Clutch wins`, v:clutches ? `${clutchWins0}/${clutches} → ${pct(clutchWins0, clutches)}` : "–"},
+        {k:`${model.teams[1]} Clutch wins`, v:clutches ? `${clutchWins1}/${clutches} → ${pct(clutchWins1, clutches)}` : "–"},
+        {k:`${model.teams[0]} ATK A/B/C`, v:joinCounts(atkCounts[0])},
         {k:`${model.teams[1]} ATK A/B/C`, v:joinCounts(atkCounts[1])},
+        {k:`${model.teams[0]} ATK win%`, v:joinRates(atkWins[0], atkCounts[0])},
         {k:`${model.teams[1]} ATK win%`, v:joinRates(atkWins[1], atkCounts[1])},
+        {k:"Tagged rounds", v:String(winnerRounds)},
+        {k:"Unassigned rounds", v:String(unassigned)}
       ];
-      const items = [];
-      const maxLen = Math.max(aItems.length, bItems.length);
-      for(let i=0;i<maxLen;i++){
-        if(aItems[i]) items.push(aItems[i]);
-        if(bItems[i]) items.push(bItems[i]);
-      }
 
       statgrid.innerHTML = "";
       for(const it of items){
@@ -597,13 +729,47 @@
       model.map = mapSelect.value;
       save();
     });
+    matchupSelect.addEventListener("change", () => {
+      if(!matchupSelect.value) return;
+      loadMatchupById(matchupSelect.value);
+    });
+    document.getElementById("newMatchBtn").addEventListener("click", () => {
+      if(!confirm("Start a new matchup? Your current matchup will stay saved in local storage.")) return;
+      createNewBlankMatchup();
+      save();
+    });
+    document.getElementById("saveAsBtn").addEventListener("click", () => {
+      const suggested = createMatchName();
+      const name = prompt("Save current tracker as:", suggested);
+      if(!name) return;
+      saveCurrentAsNewMatchup(name);
+      alert("Saved as a new matchup.");
+    });
+    document.getElementById("deleteMatchBtn").addEventListener("click", () => {
+      const activeId = getActiveMatchupId();
+      const matchups = getMatchups();
+      if(!activeId || !matchups.length) return;
+      const current = matchups.find(m => m.id === activeId);
+      if(!current) return;
+      if(!confirm(`Delete matchup \"${current.name}\"?`)) return;
+      const next = matchups.filter(m => m.id !== activeId);
+      setMatchups(next);
+      if(next.length){
+        setActiveMatchupId(next[0].id);
+        loadMatchupById(next[0].id);
+      } else {
+        localStorage.removeItem(ACTIVE_MATCHUP_KEY);
+        resetModel();
+        const starterId = saveCurrentAsNewMatchup(createMatchName());
+        buildGrid();
+        render();
+        renderMatchupOptions(starterId);
+      }
+    });
     document.getElementById("clearBtn").addEventListener("click", () => {
       if(!confirm("Clear all round marks and dots?")) return;
-      model.main = [Array(ROUNDS).fill(0), Array(ROUNDS).fill(0)];
-      model.dots.Plant = Array(ROUNDS).fill(false);
-      model.dots.Eco = Array(ROUNDS).fill(false);
-      model.dots.Clutch = Array(ROUNDS).fill(false);
-      model.hits = Array(ROUNDS).fill(0);
+      resetModel();
+      buildGrid();
       render();
       save();
     });
@@ -627,8 +793,9 @@
       if(!txt) return;
       const data = safeParseJSON(txt);
       if(!data){ alert("That wasn't valid JSON."); return; }
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      load();
+      applyData(data);
+      const name = prompt("Name this imported matchup:", createMatchName()) || createMatchName();
+      saveCurrentAsNewMatchup(name);
       buildGrid();
       render();
       save();
